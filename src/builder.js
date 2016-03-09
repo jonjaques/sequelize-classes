@@ -9,7 +9,9 @@ export class Builder {
   loadedModels = {};
 
   constructor(options = {database: '', username: '', pass: '', config: {}}, models = []) {
-    this.sequelize = new Sequelize(options.database, options.username, options.pass, options.config);
+    this.sequelize = (options.url && options.url.length)
+            ? new Sequelize(options.url, options.config)
+            : new Sequelize(options.database, options.username, options.pass, options.config);
     this.models = models.map(Model => new Model());
 
     this.models.forEach(model => {
